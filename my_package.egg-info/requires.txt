@@ -1,0 +1,4 @@
+requests>2.26.0
+pandas
+pocketflow>=0.0.3
+chromadb>=0.4.14

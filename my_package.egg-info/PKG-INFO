@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: my_package
+Version: 0.0.1
+Summary: package description
+Author-email: Example Author <author@example.com>
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: requests>2.26.0
+Requires-Dist: pandas
+Requires-Dist: pocketflow>=0.0.3
+Requires-Dist: chromadb>=0.4.14

@@ -1,0 +1,20 @@
+    [project]
+    name = "anemone"
+    version = "0.1.0"
+    authors = [
+        { name="Ange", email="angemmanuel.kouakou+professional@gmail.com" },
+    ]
+	requires-python = ">=3.13"	
+    description = "A simple example Python package."
+    dependencies = [
+        "requests",
+        "numpy",
+        "pocketflow>=0.0.3",
+        "ollama>=0.6.0",
+        "pydantic>=2.12.0",
+        "chromadb>=1.1.1",
+        "flask>=3.1.2",
+        "flask-socketio>=5.5.1",
+        "python-socketio>=5.14.1",
+        "eventlet>=0.40.3",
+        "google-genai>=1.42.0",]
