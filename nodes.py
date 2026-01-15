@@ -93,7 +93,7 @@ class Agent(pf.AsyncNode):
         return full_response
 
     async def post_async(self, shared, prep_res, exec_res):
-        if "retrieve_memory" in exec_res.lower() and shared["pass"] % 2 == 1:
+        if "retrieve_memory" in exec_res.lower():
             shared["memory_action"] = "retrieve"
             print("Started the retrieval")
             return "retrieve_memory"
