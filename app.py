@@ -82,12 +82,10 @@ def handle_message(data):
                 # Run the async flow
                 run_async_in_thread(my_async_flow.run_async(conversation_state))
                 
-                # Emit memory retrieval if it happened
-                if conversation_state.get('retrieved_memory'):
-                    socketio.emit('memory_retrieved', {
-                        'content': conversation_state['retrieved_memory']
-                    })
-                    conversation_state['retrieved_memory'] = ''  # Reset
+                # Memory retrieval is now emitted by RagNode.post_async
+                # Keep this as backup but don't clear retrieved_memory here
+                # (Agent.post_async will clear it after use)
+                pass
                 
                 # Emit final state update
                 socketio.emit('state_update', {

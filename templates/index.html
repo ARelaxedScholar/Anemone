@@ -446,6 +446,14 @@
 
         // Handle incoming stream chunks
         socket.on('stream_chunk', (data) => {
+            // If we don't have a current agent message content element,
+            // create one (handles race condition where stream_chunk arrives before status_update)
+            if (!currentAgentMessageContent) {
+                console.log('Creating agent message for stream chunk');
+                const agentMessageDiv = addMessage('agent', '');
+                currentAgentMessageContent = agentMessageDiv.querySelector('.message-content');
+            }
+            
             if (currentAgentMessageContent) {
                 currentAgentMessageContent.innerHTML += escapeHtml(data.content);
                 const messagesContainer = document.getElementById('messages');
@@ -455,7 +463,7 @@
 
         // Handle memory retrieval
         socket.on('memory_retrieved', (data) => {
-            addMemoryNotification(JSON.stringify(data.content));
+            addMemoryNotification(data.content);
         });
 
         // Handle status updates
