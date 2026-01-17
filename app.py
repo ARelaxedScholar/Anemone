@@ -132,4 +132,4 @@ def handle_clear():
 if __name__ == '__main__':
     print("🌊 Starting Anemone UI...")
     print("📍 Open http://localhost:5000 in your browser")
-    socketio.run(app, debug=True, port=5000)
+    socketio.run(app, debug=True, port=5000, allow_unsafe_werkzeug=True)
