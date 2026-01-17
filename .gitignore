@@ -20,7 +20,7 @@ wheels/
 *.egg-info/
 *.egg
 .installed.cfg
-*.toml
+
 
 # PyInstaller
 *.manifest

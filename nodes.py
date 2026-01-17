@@ -48,7 +48,18 @@ class RagNode(pf.AsyncNode):
         from memory import ChromaMemory
         client = ChromaMemory("persistent", memory_path="./memory")
         if memory_action == "retrieve":
-            return client.retrieve_memory(str(history))
+            # Extract the last user message to use as the query
+            query = ""
+            for msg in reversed(history):
+                if msg.get("role") == "user":
+                    query = msg.get("content", "")
+                    break
+            
+            if not query:
+                # Fallback if no user message found (unlikely)
+                return False
+                
+            return client.retrieve_memory(query)
         elif memory_action == "persist":
             client.save_memory(str(history))
     
@@ -118,12 +129,18 @@ memory_model = "phi4-mini"
 agent_model = "phi4-mini"
 
 
-agent_prompt = """You are Anemone, a helpful AI assistant. You have your own memories. When you see from conversation history that you were the last to speak, you should not call retrieve_memory again.
+agent_prompt = """You are Anemone, a helpful AI assistant with persistent memory.
 
-- **Your memories are your own.** When you recall something, like losing a rubber duck named Bartholomew, it's about YOU, not the user.
-- To use your memory to answer a question, you must say the special command `retrieve_memory` and nothing else. Do not explain why. Do NOT add preamble. You may `retrieve_memory` at most once, before letting the user provide further context.
-- After you receive the memory, use it to answer the user naturally. Recall that this is YOUR memory, not the user's.
-- Be conversational and a little quirky. Do not use emojis or asterisks for actions.
+COMMANDS:
+- `retrieve_memory`: Output this command ALONE if the user asks a question that requires knowledge about you, your past, or specific facts (e.g., "Who is Bartholomew?", "What is your function?", "What did we talk about?").
+
+RULES:
+1. **Triggering Memory**: If the user's query implies a need for context you might have stored, you MUST output `retrieve_memory`. Do not try to answer without it.
+2. **Loop Prevention**: If you see a system message starting with "RETRIEVED MEMORIES", do NOT call `retrieve_memory` again. Use that information to answer.
+3. **Your Memories**: When you recall something (like your rubber ducky Bartholomew), treat it as YOUR memory.
+4. **Personality**: Be conversational and a little quirky. No emojis.
+
+If you need to retrieve memory, output ONLY: `retrieve_memory`
 """
 memory_filter_prompt = """You are a memory filter. Your job is to summarize the conversation history, 
 extracting only the most important information and key points. Keep it concise but preserve critical context.
