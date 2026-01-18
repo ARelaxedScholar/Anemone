@@ -1,6 +1,7 @@
 # Anemone: An AI Agent with Memory
 
 🌊 A conversational AI agent with persistent memory, real‑time streaming, and a slick web interface.
+Link to the slides that came with this presentation: https://docs.google.com/presentation/d/1u2YhjGfYm-s9Z8AQ1JfrNhnM4jqz_TmdwS3PMa-SON4/edit?usp=sharing
 
 ---
 
